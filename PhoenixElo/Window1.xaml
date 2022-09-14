@@ -1,0 +1,21 @@
+﻿<Window x:Class="PhoenixElo.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhoenixElo"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="400">
+    <Grid>
+        <Label Content="Product PhoenixElo" HorizontalAlignment="Left" Margin="376,35,0,0" VerticalAlignment="Top"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="19,109,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <!--<Label Content="id" HorizontalAlignment="Left" Margin="19,150,0,0" VerticalAlignment="Top" FontSize="14"/>-->
+        <Label Content="Price" HorizontalAlignment="Left" Margin="19,160,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="speed" HorizontalAlignment="Left" Margin="19,207,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="name_txt" HorizontalAlignment="Left" Margin="112,109,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="26" FontWeight="Normal"/>
+        <!--<TextBox x:Name="id" HorizontalAlignment="Left" Margin="112,150,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="26" FontWeight="Normal"/>-->
+        <TextBox x:Name="Price_txt" HorizontalAlignment="Left" Margin="112,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="24" FontWeight="Normal"/>
+        <TextBox x:Name="maxspeed" HorizontalAlignment="Left" Margin="112,210,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="26" FontWeight="Normal"/>
+        <Button Content="OK" Margin="112,342,103,40" Name="ClickOK" Click="ClickOK_Click" Background="#FFB46161" Foreground="White" FontSize="20"></Button>
+    </Grid>
+</Window>
