@@ -33,7 +33,7 @@ namespace PhoenixElo
             EmployeesList.ItemsSource = context.GetAll().ToList();
         }
 
-        private void Read()
+        public void Read()
         {
             EmployeesList.ItemsSource = context.GetAll().ToList();
         }
@@ -52,34 +52,44 @@ namespace PhoenixElo
         {
             Window1 window1 = new Window1(context);
             window1.Show();
+            
         }
 
 
-        private async void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        private /*async*/ void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
             Motorcycle selectedCycle = EmployeesList.SelectedItem as Motorcycle;
 
-            var mot = Cycle();
+            //var mot = Cycle();
 
-            if (mot != null)
+            //if (mot != null)
+            var name = Name_txt.Text;
+            var price = int.Parse(Price_txt.Text);
+            var maxspeed = int.Parse(MaxSpeed_txt.Text);
+            if (name != null)
             {
                 Motorcycle motorcycle = context.Motorcycles.Find(selectedCycle.ID);
-                motorcycle.Name = mot.Name;
-                motorcycle.Price = mot.Price;
-                motorcycle.MaxSpeed = mot.MaxSpeed;
+                motorcycle.Name = name;
+                motorcycle.Price = price;
+                motorcycle.MaxSpeed = maxspeed;
 
-               await context.Update(mot);
+                context.SaveChanges();
+                //motorcycle.Name = mot.Name;
+                //motorcycle.Price = mot.Price;
+                //motorcycle.MaxSpeed = mot.MaxSpeed;  
+                //await context.Update(mot);
+                Read();
             }
         }
 
-        private Motorcycle Cycle()
-        {
-            var motorcycle = new Motorcycle();
-            motorcycle.Name = Name_txt.Text;
-            motorcycle.Price = int.Parse(Price_txt.Text);
-            motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
-            return motorcycle;
-        }
+        //private Motorcycle Cycle()
+        //{
+        //    var motorcycle = new Motorcycle();
+        //    motorcycle.Name = Name_txt.Text;
+        //    motorcycle.Price = int.Parse(Price_txt.Text);
+        //    motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
+        //    return motorcycle;
+        //}
 
     
 

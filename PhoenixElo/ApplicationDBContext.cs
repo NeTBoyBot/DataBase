@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Database;
 
 namespace PhoenixElo
 {
     public class ApplicationDBContext : DbContext
     {
+
         public DbSet<Motorcycle> Motorcycles { get; set; }
+
 
         public ApplicationDBContext() => Database.EnsureCreated();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElos11;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo;Integrated Security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +32,15 @@ namespace PhoenixElo
                 Price = 138131
 
             });
+
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                UserID = 1,
+                UserName = "User1",
+                Password = "123"
+            });
         }
+
         public async Task Create(Motorcycle entity)
         {
             await Motorcycles.AddAsync(entity);
@@ -37,7 +48,7 @@ namespace PhoenixElo
         }
 
         public async Task<bool> Delete(Motorcycle entity)
-        {
+        {   
             Remove(entity);
             await SaveChangesAsync();
             return true;

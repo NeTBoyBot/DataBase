@@ -26,6 +26,7 @@ namespace PhoenixElo
             InitializeComponent();
         }
 
+
         private async void ClickOK_Click(object sender, RoutedEventArgs e)
         {
             var cycle = new Motorcycle()

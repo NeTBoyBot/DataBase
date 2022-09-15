@@ -31,19 +31,17 @@ namespace PhoenixElo
         private void btnReg_Click(object sender, RoutedEventArgs e)
         {
             SqlConnection sqlCon = new SqlConnection(@"Data Source=COMPUTER\SQLEXPRESS; Initial Catalog=PhoenixElo; Integrated Security=True;");
-            Random rnd = new Random();
-            int ID_Value = rnd.Next(0, 1000);
+            
             try
             {
                 if (sqlCon.State == ConnectionState.Closed)
                     sqlCon.Open();
-                String query = "INSERT INTO [tblUser] (UserID, UserName, Password) VALUES (@UserID, @UserName, @Password)";
+                String query = "INSERT INTO [User] (UserName, Password) VALUES (@UserName, @Password)";
                 SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
                 sqlCmd.CommandType = CommandType.Text;
-                sqlCmd.Parameters.AddWithValue("@UserID", ID_Value);
                 sqlCmd.Parameters.AddWithValue("@UserName", InputEmail.Text);
                 sqlCmd.Parameters.AddWithValue("@Password", InputRegPassword.Password);
-                //Забота о дураке
+
                 if (InputEmail.Text.Length > 0)
                 {
                     if (InputRegPassword.Password.Length > 0)
