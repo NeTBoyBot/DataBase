@@ -19,12 +19,12 @@ namespace PhoenixElo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
         public List<Motorcycle> Motorcycles { get; private set; }
 
         ApplicationDBContext context = new ApplicationDBContext();
-        
+
 
         public MainWindow()
         {
@@ -56,42 +56,30 @@ namespace PhoenixElo
         }
 
 
-        private /*async*/ void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        private async void UpdateBtn_Click(object sender, RoutedEventArgs e) 
         {
+            var mot = Cycle();
             Motorcycle selectedCycle = EmployeesList.SelectedItem as Motorcycle;
-
-            //var mot = Cycle();
-
-            //if (mot != null)
-            var name = Name_txt.Text;
-            var price = int.Parse(Price_txt.Text);
-            var maxspeed = int.Parse(MaxSpeed_txt.Text);
-            if (name != null)
+            Motorcycle motorcycle = await context.Motorcycles.FirstOrDefaultAsync(x => x.ID == selectedCycle.ID);
+            if (mot != null)
             {
-                Motorcycle motorcycle = context.Motorcycles.Find(selectedCycle.ID);
-                motorcycle.Name = name;
-                motorcycle.Price = price;
-                motorcycle.MaxSpeed = maxspeed;
-
-                context.SaveChanges();
-                //motorcycle.Name = mot.Name;
-                //motorcycle.Price = mot.Price;
-                //motorcycle.MaxSpeed = mot.MaxSpeed;  
-                //await context.Update(mot);
-                Read();
-            }
+                motorcycle.Name = mot.Name;
+                motorcycle.Price = mot.Price;
+                motorcycle.MaxSpeed = mot.MaxSpeed;
+                await context.SaveChangesAsync();
+            }          
         }
 
-        //private Motorcycle Cycle()
-        //{
-        //    var motorcycle = new Motorcycle();
-        //    motorcycle.Name = Name_txt.Text;
-        //    motorcycle.Price = int.Parse(Price_txt.Text);
-        //    motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
-        //    return motorcycle;
-        //}
+        private Motorcycle Cycle()
+        {
+            var motorcycle = new Motorcycle();
+            motorcycle.Name = Name_txt.Text;
+            motorcycle.Price = int.Parse(Price_txt.Text);
+            motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
+            return motorcycle;
+        }
 
-    
+
 
         private async void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -99,7 +87,7 @@ namespace PhoenixElo
 
             if (selectedCycle != null)
             {
-                var motorcycle = context.Motorcycles.FirstOrDefault(x => x.ID == selectedCycle.ID);
+                var motorcycle = await context.Motorcycles.FirstOrDefaultAsync(x => x.ID == selectedCycle.ID);
                 await context.Delete(motorcycle);
             }
 
