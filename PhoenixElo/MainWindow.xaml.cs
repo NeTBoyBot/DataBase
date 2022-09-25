@@ -67,7 +67,8 @@ namespace PhoenixElo
                 motorcycle.Price = mot.Price;
                 motorcycle.MaxSpeed = mot.MaxSpeed;
                 await context.SaveChangesAsync();
-            }          
+            }
+            Read();
         }
 
         private Motorcycle Cycle()
