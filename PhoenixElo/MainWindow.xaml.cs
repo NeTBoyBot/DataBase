@@ -51,36 +51,32 @@ namespace PhoenixElo
         private void InsertBtn_Click(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1(context);
-            window1.Show();
-            
+            window1.Show();            
         }
 
 
-        private async void UpdateBtn_Click(object sender, RoutedEventArgs e) 
+        private async void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
-            var mot = Cycle();
-            Motorcycle selectedCycle = EmployeesList.SelectedItem as Motorcycle;
-            Motorcycle motorcycle = await context.Motorcycles.FirstOrDefaultAsync(x => x.ID == selectedCycle.ID);
-            if (mot != null)
+            try
             {
-                motorcycle.Name = mot.Name;
-                motorcycle.Price = mot.Price;
-                motorcycle.MaxSpeed = mot.MaxSpeed;
-                await context.SaveChangesAsync();
+                var selectedCycle = EmployeesList.SelectedItem as Motorcycle;
+                var motorcycle = context.GetAll().FirstOrDefault(x => x.ID == selectedCycle.ID);
+
+                if (selectedCycle != null)
+                {
+                    motorcycle.Name = Name_txt.Text;
+                    motorcycle.Price = int.Parse(Price_txt.Text);
+                    motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
+                    await context.Update(motorcycle);
+                    Read();
+                }
             }
-            Read();
+            catch
+            {
+                MessageBox.Show("Вы не выбрали элемент для обновление!");
+            }
+                  
         }
-
-        private Motorcycle Cycle()
-        {
-            var motorcycle = new Motorcycle();
-            motorcycle.Name = Name_txt.Text;
-            motorcycle.Price = int.Parse(Price_txt.Text);
-            motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
-            return motorcycle;
-        }
-
-
 
         private async void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -91,7 +87,6 @@ namespace PhoenixElo
                 var motorcycle = await context.Motorcycles.FirstOrDefaultAsync(x => x.ID == selectedCycle.ID);
                 await context.Delete(motorcycle);
             }
-
             Read();
         }
  
