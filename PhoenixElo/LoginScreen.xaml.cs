@@ -21,44 +21,33 @@ namespace PhoenixElo
     /// </summary>
     public partial class LoginScreen : Window
     {
+        ApplicationDBContext _context = new ApplicationDBContext();
         public LoginScreen()
         {
             InitializeComponent();
         }
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection sqlCon = new SqlConnection(@"Data Source=COMPUTER\SQLEXPRESS; Initial Catalog=PhoenixElo; Integrated Security=True;");
             try
             {
-                if (sqlCon.State == ConnectionState.Closed)
-                    sqlCon.Open();
-                String query = "SELECT COUNT(1) FROM [User] WHERE UserName=@UserName AND Password=@Password";
-                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
-                sqlCmd.CommandType = CommandType.Text;
-                sqlCmd.Parameters.AddWithValue("@UserName", InputName.Text);
-                sqlCmd.Parameters.AddWithValue("@Password", InputPassword.Password);
-                int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
-                if (count == 1)
+                var userFound = _context.Users.Any(x => x.UserName == InputName.Text && x.Password == InputPassword.Password);
+                if (userFound) 
                 {
-                    MainWindow dashboard = new MainWindow();
-                    dashboard.Show();
+                    MainWindow f = new MainWindow();
+                    f.Show();
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Логин или пороль не верен");
+                    MessageBox.Show("Данные не корректны");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                sqlCon.Close();
-            }
+            }   
         }
-
+        
         private void btnOpenReg_Click(object sender, RoutedEventArgs e)
         {
             ReginNewUser reginNewUser = new ReginNewUser();

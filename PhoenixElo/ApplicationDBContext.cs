@@ -9,12 +9,12 @@ namespace PhoenixElo
     {
 
         public DbSet<Motorcycle> Motorcycles { get; set; }
-
+        public DbSet<User> Users { get; set; }
 
         public ApplicationDBContext() => Database.EnsureCreated();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo1;Integrated Security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +41,12 @@ namespace PhoenixElo
         public async Task Create(Motorcycle entity)
         {
             await Motorcycles.AddAsync(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task CreateUser(User entity)
+        {
+            await Users.AddAsync(entity);
             await SaveChangesAsync();
         }
 
