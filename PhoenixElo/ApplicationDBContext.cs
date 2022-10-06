@@ -14,7 +14,7 @@ namespace PhoenixElo
         public ApplicationDBContext() => Database.EnsureCreated();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo1;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo;Integrated Security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

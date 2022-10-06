@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,13 +21,14 @@ namespace PhoenixElo
     public partial class Window1 : Window
     {
         private readonly ApplicationDBContext _context;
+
         public Window1(ApplicationDBContext context)
         {
             _context = context;
             InitializeComponent();
         }
 
-
+        
         private async void ClickOK_Click(object sender, RoutedEventArgs e)
         {
             var cycle = new Motorcycle()

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:PhoenixElo"
         xmlns:db="clr-namespace:PhoenixElo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="280" Width="710" ResizeMode="CanResize">
-    <Grid ShowGridLines="True">
+        Title="MainWindow" Height="280" Width="710" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+    <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" ></ColumnDefinition>
             <ColumnDefinition Width="680"></ColumnDefinition>

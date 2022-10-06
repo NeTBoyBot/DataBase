@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhoenixElo"
         mc:Ignorable="d"
-        Title="ReginNewUser" Height="377" Width="300">
+        Title="ReginNewUser" Height="377" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Border Background="#FF2A313E" CornerRadius="20" Margin="20,20,20,23">
             <StackPanel Margin="20,24,20,24" Background="#FF2A313E">

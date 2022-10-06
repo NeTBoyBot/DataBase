@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -21,41 +22,75 @@ namespace PhoenixElo
     /// </summary>
     public partial class LoginScreen : Window
     {
-        ApplicationDBContext _context = new ApplicationDBContext();
-        public LoginScreen()
+        private readonly ApplicationDBContext _context;
+        public LoginScreen(ApplicationDBContext context)
         {
+            _context = context;
             InitializeComponent();
+            //Loaded += Window_Loaded;
         }
-        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        
+
+        private void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
+            {      
                 var userFound = _context.Users.Any(x => x.UserName == InputName.Text && x.Password == InputPassword.Password);
-                if (userFound) 
+                if (userFound)
                 {
-                    MainWindow f = new MainWindow();
-                    f.Show();
-                    this.Close();
+                    DialogResult = true;
                 }
                 else
                 {
                     MessageBox.Show("Данные не корректны");
                 }
+                
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }   
         }
-        
-        private void btnOpenReg_Click(object sender, RoutedEventArgs e)
+
+
+        private void BtnOpenReg_Click(object sender, RoutedEventArgs e)
         {
-            ReginNewUser reginNewUser = new ReginNewUser();
+            ReginNewUser reginNewUser = new ReginNewUser(_context);
             reginNewUser.Show();
            
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (DialogResult == null)
+            {
+                if (MessageBox.Show("Если вы закроете окно LoginScreen вход не будет выполнен",
+                "Вы действительно хотите закрыть", MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question, MessageBoxResult.Cancel) != MessageBoxResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if ((bool)DialogResult)
+            {
+                MessageBox.Show("Вы успешно вошли в аккаунт");
+            }
+            else
+            {
+                MessageBox.Show("Вы не вошли в аккаунт");
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Owner = this;
+        }
     }
 
 }

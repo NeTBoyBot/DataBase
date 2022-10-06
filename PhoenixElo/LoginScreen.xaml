@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhoenixElo"
         mc:Ignorable="d"
-        Title="LoginScreen" Height="350" Width="300">
-    <Grid Background="White" Margin="0,0,0,-30">
+        Title="LoginScreen" Height="350" Width="300"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Closed="Window_Closed" Loaded="Window_Loaded">
+    <Grid Background="White" Margin="0,0,0,-30" >
         <Border Background="#FF2A313E" CornerRadius="20" Margin="20,20,22,60">
             <StackPanel Margin="20,20,20,19">
                 <Label Content="Login" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
@@ -15,8 +15,8 @@
                 <TextBox x:Name="InputName" Background="#545d6a" Foreground="White" FontSize="18"/>
                 <Label Content="Password" Foreground="White"/>
                 <PasswordBox x:Name="InputPassword" Background="#545d6a" Foreground="White" FontSize="18"/>
-                <Button x:Name="btnSubmit" Click="btnSubmit_Click" Content="Submit" Margin="60 10" Background="#545d6a" Foreground="White" FontSize="18"/>
-                <Button x:Name="btnOpenReg" Click="btnOpenReg_Click" Content="Registration" Background="#545d6a" Foreground="White" Width="100"></Button>
+                <Button x:Name="btnSubmit" Click="BtnSubmit_Click" Content="Submit" Margin="60 10" Background="#545d6a" Foreground="White" FontSize="18"/>
+                <Button x:Name="btnOpenReg" Click="BtnOpenReg_Click" Content="Registration" Background="#545d6a" Foreground="White" Width="100"></Button>
             </StackPanel>
         </Border>
     </Grid>

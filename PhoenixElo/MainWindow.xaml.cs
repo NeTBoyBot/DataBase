@@ -1,18 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PhoenixElo
 {
@@ -21,16 +11,26 @@ namespace PhoenixElo
     /// </summary>
     public partial class MainWindow : Window 
     {
-        public List<Motorcycle> Motorcycles { get; private set; }
 
         ApplicationDBContext context = new ApplicationDBContext();
-
 
         public MainWindow()
         {
             InitializeComponent();
-            
             EmployeesList.ItemsSource = context.GetAll().ToList();
+            Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartLogin();
+        }
+
+        public void StartLogin()
+        {
+            LoginScreen loginScreen = new LoginScreen(context);
+            loginScreen.Owner = this;
+            loginScreen.ShowDialog();
         }
 
         public void Read()
@@ -50,8 +50,19 @@ namespace PhoenixElo
 
         private void InsertBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window1 window1 = new Window1(context);
-            window1.Show();            
+            try
+            {
+                Window1 window1 = new Window1(context);
+                window1.Show();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Read();
+            }
         }
 
 

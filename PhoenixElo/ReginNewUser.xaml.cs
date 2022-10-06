@@ -22,9 +22,10 @@ namespace PhoenixElo
     /// </summary>
     public partial class ReginNewUser : Window
     {
-        ApplicationDBContext context = new ApplicationDBContext();
-        public ReginNewUser()
+        private readonly ApplicationDBContext _context;
+        public ReginNewUser(ApplicationDBContext context)
         {
+            _context = context;
             InitializeComponent();
         }
 
@@ -37,7 +38,7 @@ namespace PhoenixElo
             };
             if (InputEmail.Text != null && InputRegPassword.Password != null && InputRegPassword.Password == InputRegPasswordRepeat.Password)
             {
-                await context.CreateUser(newUser);
+                await _context.CreateUser(newUser);
                 MessageBox.Show("Вы успешно зарегистрировались");
                 this.Close();
             }
