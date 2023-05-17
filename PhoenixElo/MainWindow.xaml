@@ -6,41 +6,59 @@
         xmlns:local="clr-namespace:PhoenixElo"
         xmlns:db="clr-namespace:PhoenixElo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="280" Width="710" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="344" Width="808" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
     <Grid ShowGridLines="False">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" ></ColumnDefinition>
-            <ColumnDefinition Width="680"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
-        </Grid.RowDefinitions>
+
         <StackPanel HorizontalAlignment="Left" Width="65">
-            <Label Content="ID" Height="25"/>
-            <Label Content="Name" Height="25"/>
-            <Label Content="Price" Height="25"/>
-            <Label Content="MaxSpeed" Height="25"/>
+
         </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Margin="81,0,0,0" Width="185">
-            <TextBox x:Name="Id_txt" HorizontalAlignment="Left" Text="{Binding ElementName=EmployeesList, Path=SelectedItem.ID, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="26" FontWeight="Normal"/>
-            <TextBox x:Name="Name_txt" HorizontalAlignment="Left" Text="{Binding ElementName=EmployeesList, Path=SelectedItem.Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="26" FontWeight="Normal"/>
-            <TextBox x:Name="Price_txt" HorizontalAlignment="Left" Text="{Binding ElementName=EmployeesList, Path=SelectedItem.Price, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="24" FontWeight="Normal"/>
-            <TextBox x:Name="MaxSpeed_txt" HorizontalAlignment="Left" Text="{Binding ElementName=EmployeesList, Path=SelectedItem.MaxSpeed, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Height="29" FontWeight="Normal"/>
-        </StackPanel>
-        <DataGrid Grid.Column="1" x:Name="EmployeesList" AutoGenerateColumns="False" SelectionChanged="EmployeesList_SelectionChanged" Background="{x:Null}" Margin="0,0,310,0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}"></DataGridTextColumn>
-                <DataGridTextColumn Header="MaxSpeed" Binding="{Binding MaxSpeed}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="48" Grid.ColumnSpan="2" Margin="0,10,0,0">
-            <Button  x:Name="InsertBtn" Content="Insert Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="48" Width="93" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="InsertBtn_Click"/>
-            <Button  x:Name="UpdateBtn" Content="Update Record" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="48" Width="93" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="UpdateBtn_Click"/>
-            <Button  x:Name="DeleteBtn" Content="Delete Record" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="48" Width="93" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="DeleteBtn_Click"/>
-            <Button  x:Name="ReadBtn" Content="Read Record" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="48" Width="93" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="ReadBtn_Click"/>
-        </StackPanel>
+
+        <TabControl>
+            <TabItem Header="Заявки">
+                <Grid>
+                    <DataGrid x:Name="EmployeesList" AutoGenerateColumns="False" SelectionChanged="EmployeesList_SelectionChanged" Background="{x:Null}" Margin="10,0,18,63" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Content" Binding="{Binding Content}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="UserId" Binding="{Binding UserId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="IsCompleted" Binding="{Binding IsCompleted}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="CompleteTime" Binding="{Binding CompleteTime}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="48" Margin="10,242,101,0">
+                        <Button  x:Name="UpdateBtn" Content="Complete Record"  VerticalAlignment="Top" Height="48" Width="119" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="UpdateBtn_Click"/>
+                        <Button  x:Name="DeleteBtn" Content="Delete Record"  VerticalAlignment="Top" Height="48" Width="123" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="DeleteBtn_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Выполненные заявки">
+                <Grid>
+                    <DataGrid x:Name="DoneRequestList" AutoGenerateColumns="False" SelectionChanged="EmployeesList_SelectionChanged" Background="{x:Null}" Margin="10,0,18,63" IsReadOnly="True" Loaded="DoneRequestList_Loaded">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Content" Binding="{Binding Content}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="UserId" Binding="{Binding UserId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="IsCompleted" Binding="{Binding IsCompleted}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="CompleteTime" Binding="{Binding CompleteTime}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="48" Margin="10,242,101,0">
+                        <Button  x:Name="Delete" Content="Delete Record"  VerticalAlignment="Top" Height="48" Width="123" FontWeight="Bold" Foreground="#FFFDFDFD" Background="#FFB22828" Click="Delete_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сотрудники" ContextMenuOpening="TabItem_ContextMenuOpening" MouseDown="TabItem_MouseDown">
+                <DataGrid x:Name="RequestList" AutoGenerateColumns="False" SelectionChanged="EmployeesList_SelectionChanged" Background="{x:Null}" Margin="10,0,18,63" IsReadOnly="True" Loaded="RequestList_Loaded">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Content" Binding="{Binding FIO}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="UserId" Binding="{Binding Description}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

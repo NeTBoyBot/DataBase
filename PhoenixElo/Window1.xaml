@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="400">
     <Grid>
-        <Label Content="Product PhoenixElo" HorizontalAlignment="Left" Margin="376,35,0,0" VerticalAlignment="Top"/>
         <Label Content="Name" HorizontalAlignment="Left" Margin="19,109,0,0" VerticalAlignment="Top" FontSize="14"/>
         <!--<Label Content="id" HorizontalAlignment="Left" Margin="19,150,0,0" VerticalAlignment="Top" FontSize="14"/>-->
         <Label Content="Price" HorizontalAlignment="Left" Margin="19,160,0,0" VerticalAlignment="Top" FontSize="14"/>

@@ -1,46 +1,51 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WPF_Database;
+using WPF_Database.Models;
 
 namespace PhoenixElo
 {
     public class ApplicationDBContext : DbContext
     {
-
-        public DbSet<Motorcycle> Motorcycles { get; set; }
+        public DbSet<Request> Requests { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         public ApplicationDBContext() => Database.EnsureCreated();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=COMPUTER\SQLEXPRESS;Database=PhoenixElo;Integrated Security=True;");
+            optionsBuilder.UseSqlite("Data Source=helloapp.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Motorcycle>().HasData(new Motorcycle
-            {
-                ID = 1,
-                Name = "Yamaha R1",
-                MaxSpeed = 320,
-                Price = 138131
-
-            });
-
             modelBuilder.Entity<User>().HasData(new User
             {
-                UserID = 1,
-                UserName = "User1",
-                Password = "123"
+                UserID = Guid.NewGuid(),
+                UserName = "Admin",
+                Password = "Admin",
+                Role = "Admin"
+            });
+
+            modelBuilder.Entity<Employee>().HasData(new Employee
+            {
+                Id = Guid.NewGuid(),
+                Description = "Преподаватель Ин. Языка",
+                FIO = "Петров Игорь Викторович"
+            }, new Employee
+            {
+                Id = Guid.NewGuid(),
+                Description = "Преподаватель Русского Языка",
+                FIO = "Сергеев Владислав Олегович"
             });
         }
 
-        public async Task Create(Motorcycle entity)
+        public async Task Create(Request entity)
         {
-            await Motorcycles.AddAsync(entity);
+            await Requests.AddAsync(entity);
             await SaveChangesAsync();
         }
 
@@ -50,21 +55,21 @@ namespace PhoenixElo
             await SaveChangesAsync();
         }
 
-        public async Task<bool> Delete(Motorcycle entity)
+        public async Task<bool> Delete(Request entity)
         {   
             Remove(entity);
             await SaveChangesAsync();
             return true;
         }
 
-        public IQueryable<Motorcycle> GetAll()
+        public IQueryable<Request> GetAll()
         {
-            return Motorcycles;
+            return Requests;
         }
 
-        public async Task<Motorcycle> Update(Motorcycle entity)
+        public async Task<Request> Update(Request entity)
         {
-            Motorcycles.Update(entity);
+            Requests.Update(entity);
             await SaveChangesAsync();
 
             return entity;

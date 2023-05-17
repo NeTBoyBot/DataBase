@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPF_Database.Models;
 
 namespace PhoenixElo
 {
@@ -31,14 +32,14 @@ namespace PhoenixElo
         
         private async void ClickOK_Click(object sender, RoutedEventArgs e)
         {
-            var cycle = new Motorcycle()
+            var cycle = new Request()
             {
-                Name = name_txt.Text,
-                Price = int.Parse(Price_txt.Text),
-                MaxSpeed = int.Parse(maxspeed.Text)
+                //TODO
             };
 
             await _context.Create(cycle);
+
+            this.Close();
         }
     }
 }

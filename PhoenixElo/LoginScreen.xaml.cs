@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPF_Database;
 
 namespace PhoenixElo
 {
@@ -23,22 +25,33 @@ namespace PhoenixElo
     public partial class LoginScreen : Window
     {
         private readonly ApplicationDBContext _context;
-        public LoginScreen(ApplicationDBContext context)
+        public LoginScreen()
         {
-            _context = context;
+            _context = new ApplicationDBContext();
             InitializeComponent();
             //Loaded += Window_Loaded;
         }
         
 
-        private void BtnSubmit_Click(object sender, RoutedEventArgs e)
+        private async void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
             try
             {      
                 var userFound = _context.Users.Any(x => x.UserName == InputName.Text && x.Password == InputPassword.Password);
                 if (userFound)
                 {
-                    DialogResult = true;
+                    
+
+                    var user = await _context.Users.Select(u => u)
+                        .Where(x => x.UserName == InputName.Text && x.Password == InputPassword.Password)
+                        .FirstOrDefaultAsync();
+                    MainWindow.AuthorizedUser = user;
+                    if(user.Role == "Admin")
+                        new MainWindow().Show();
+                    else
+                        new UserWindow().Show();
+
+                    this.Close();
                 }
                 else
                 {
@@ -62,27 +75,26 @@ namespace PhoenixElo
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (DialogResult == null)
-            {
-                if (MessageBox.Show("Если вы закроете окно LoginScreen вход не будет выполнен",
-                "Вы действительно хотите закрыть", MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question, MessageBoxResult.Cancel) != MessageBoxResult.Yes)
-                {
-                    e.Cancel = true;
-                }
-            }
+            
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if ((bool)DialogResult)
+            try
             {
-                MessageBox.Show("Вы успешно вошли в аккаунт");
+                if ((bool)DialogResult)
+                {
+                    MessageBox.Show("Вы успешно вошли в аккаунт");
+                }
+                else
+                {
+                    MessageBox.Show("Вы не вошли в аккаунт");
+                    Application.Current.Shutdown();
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Вы не вошли в аккаунт");
-                Application.Current.Shutdown();
+
             }
         }
 

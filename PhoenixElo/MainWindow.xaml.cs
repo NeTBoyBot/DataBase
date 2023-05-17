@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using WPF_Database.Models;
 
 namespace PhoenixElo
 {
@@ -11,6 +12,8 @@ namespace PhoenixElo
     /// </summary>
     public partial class MainWindow : Window 
     {
+
+        public static User AuthorizedUser { get; set; }
 
         ApplicationDBContext context = new ApplicationDBContext();
 
@@ -23,12 +26,12 @@ namespace PhoenixElo
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            StartLogin();
+            //StartLogin();
         }
 
         public void StartLogin()
         {
-            LoginScreen loginScreen = new LoginScreen(context);
+            LoginScreen loginScreen = new LoginScreen();
             loginScreen.Owner = this;
             loginScreen.ShowDialog();
         }
@@ -36,6 +39,8 @@ namespace PhoenixElo
         public void Read()
         {
             EmployeesList.ItemsSource = context.GetAll().ToList();
+            RequestList.ItemsSource = context.Employees.ToList();
+            DoneRequestList.ItemsSource = context.Requests.Select(r => r).Where(r => r.IsCompleted).ToList();
         }
 
         private void ReadBtn_Click(object sender, RoutedEventArgs e)
@@ -70,14 +75,14 @@ namespace PhoenixElo
         {
             try
             {
-                var selectedCycle = EmployeesList.SelectedItem as Motorcycle;
-                var motorcycle = context.GetAll().FirstOrDefault(x => x.ID == selectedCycle.ID);
+                var selectedCycle = EmployeesList.SelectedItem as Request;
+                var motorcycle = context.GetAll().FirstOrDefault(x => x.Id == selectedCycle.Id);
 
                 if (selectedCycle != null)
                 {
-                    motorcycle.Name = Name_txt.Text;
-                    motorcycle.Price = int.Parse(Price_txt.Text);
-                    motorcycle.MaxSpeed = int.Parse(MaxSpeed_txt.Text);
+                    //TODO
+                    motorcycle.IsCompleted = true;
+                    motorcycle.CompleteTime = DateTime.UtcNow;
                     await context.Update(motorcycle);
                     Read();
                 }
@@ -91,15 +96,48 @@ namespace PhoenixElo
 
         private async void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            Motorcycle selectedCycle = EmployeesList.SelectedItem as Motorcycle;
+            Request selectedCycle = EmployeesList.SelectedItem as Request;
 
             if (selectedCycle != null)
             {
-                var motorcycle = await context.Motorcycles.FirstOrDefaultAsync(x => x.ID == selectedCycle.ID);
+                var motorcycle = await context.Requests.FirstOrDefaultAsync(x => x.Id == selectedCycle.Id);
                 await context.Delete(motorcycle);
             }
             Read();
         }
- 
+
+        private void TabItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            
+            
+        }
+
+        private void TabItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
+            
+        }
+
+        private void RequestList_Loaded(object sender, RoutedEventArgs e)
+        {
+            Read();
+        }
+
+        private void DoneRequestList_Loaded(object sender, RoutedEventArgs e)
+        {
+            Read();
+        }
+
+        private async void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            Request selectedCycle = DoneRequestList.SelectedItem as Request;
+
+            if (selectedCycle != null)
+            {
+                var motorcycle = await context.Requests.FirstOrDefaultAsync(x => x.Id == selectedCycle.Id);
+                await context.Delete(motorcycle);
+            }
+            Read();
+        }
     }
 }

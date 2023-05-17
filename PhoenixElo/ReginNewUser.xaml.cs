@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPF_Database;
+using WPF_Database.Models;
 
 namespace PhoenixElo
 {
